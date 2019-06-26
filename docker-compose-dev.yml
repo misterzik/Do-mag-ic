@@ -1,0 +1,59 @@
+# All your docker's belong to us,
+# Magento Instance Installer
+# Version 2
+# https://docs.docker.com/compose/compose-file/#/versioning
+#//\/\isterZik.
+
+version: '2'
+
+services:
+###########################
+# Web Container Setup
+###########################
+  web:
+    ##################################
+    # The Micro-Service will start
+    # from Dockerfile, and build from.
+    #################################
+    build: .
+    ##############################
+    # The Ports we will be binding this too.
+    ##############################
+    ports:
+      - "80:80"
+    ##############################
+    # Create a symbolic link within machines to be able
+    # to communicate.
+    ##############################
+    links:
+      - mysql
+    ##############################
+    # Take all Configuration Parameters from Env File
+    ##############################
+    env_file:
+      - env
+
+    ##############################
+    # In order to Run this Instance make it dependable of?
+    ##############################
+    depends_on:
+      - mysql
+
+  ###########################
+  # DB Container Setup
+  ###########################
+  mysql:
+    ###############################
+    # The Micro-Service will drag
+    # a Git Instance from Docker's
+    # that includes an instance of
+    # MySQL 5.6.x
+    ###############################
+    image: mysql:5.6.23
+
+    ##############################
+    # Take all Configuration Parameters from Env File
+    ##############################
+    env_file:
+      - env
+    #//\/\isterZik.

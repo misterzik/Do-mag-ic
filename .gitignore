@@ -1,0 +1,6 @@
+.idea
+sampledata/automation-ecb-db.sql
+sampledata/automation-ecb-db-old.sql
+sampledata/eatcleanbro-dev.tar
+sampledata/magento-sample-data-1.6.1.0.tar.gz
+.DS_Store

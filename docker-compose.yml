@@ -1,0 +1,97 @@
+# All your docker's belong to us,
+# Magento Instance Installer
+# Version 2
+# https://docs.docker.com/compose/compose-file/#/versioning
+#//\/\isterZik.
+
+version: '2'
+
+services:
+###########################
+# Web Container Setup
+###########################
+  web:
+    ###############################
+    # The Micro-Service will drag
+    # a Git Instance from OcciTech
+    # that includes an instance of
+    # LAMP Stack w/ Magento Files
+    ###############################
+    image: alexcheng/magento
+    ##############################
+    # Sample Coding
+    #FROM occitech/magento:php5.5-apache
+    #
+    #ENV MAGENTO_VERSION 1.9.2.4
+    #
+    #RUN cd /tmp && \
+    #    curl https://codeload.github.com/OpenMage/magento-mirror/tar.gz/$MAGENTO_VERSION -o $MAGENTO_VERSION.tar.gz && \
+    #    tar xvf $MAGENTO_VERSION.tar.gz && \
+    #   mv magento-mirror-$MAGENTO_VERSION/* magento-mirror-$MAGENTO_VERSION/.htaccess /var/www/htdocs
+    #
+    #RUN chown -R www-data:www-data /var/www/htdocs
+    #
+    #RUN apt-get update && apt-get install -y mysql-client-5.5 libxml2-dev
+    #RUN docker-php-ext-install soap
+    #
+    #COPY ./bin/install-magento /usr/local/bin/install-magento
+    #RUN chmod +x /usr/local/bin/install-magento
+    #
+    #COPY ./sampledata/magento-sample-data-1.9.1.0.tgz /opt/
+    #COPY ./bin/install-sampledata-1.9 /usr/local/bin/install-sampledata
+    #RUN chmod +x /usr/local/bin/install-sampledata
+    #
+    #RUN bash -c 'bash < <(curl -s -L https://raw.github.com/colinmollenhour/modman/master/modman-installer)'
+    #RUN mv ~/bin/modman /usr/local/bin
+    #
+    #VOLUME /var/www/htdocs
+    #RUN sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/htdocs/' /etc/apache2/sites-available/000-default.conf
+    #RUN sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/htdocs/' /etc/apache2/sites-available/default-ssl.conf
+    #
+    # The script above, represents the same thing than then image we utilizing, By using this image, we are saving time
+    # to redo, and upload a git that is already done.
+    ##############################
+
+    ##############################
+    # The Ports we will be binding this too.
+    ##############################
+    ports:
+      - "80:80"
+
+    ##############################
+    # Create a symbolic link within machines to be able
+    # to communicate.
+    ##############################
+    links:
+      - mysql
+
+    ##############################
+    # Take all Configuration Parameters from Env File
+    ##############################
+    env_file:
+      - env
+
+    ##############################
+    # In order to Run this Instance make it dependable of?
+    ##############################
+    depends_on: 
+      - mysql
+
+  ###########################
+  # DB Container Setup
+  ###########################
+  mysql:
+    ###############################
+    # The Micro-Service will drag
+    # a Git Instance from Docker's
+    # that includes an instance of
+    # MySQL 5.6.x
+    ###############################
+    image: mysql:5.6.23
+
+    ##############################
+    # Take all Configuration Parameters from Env File
+    ##############################
+    env_file:
+      - env
+    #//\/\isterZik.
